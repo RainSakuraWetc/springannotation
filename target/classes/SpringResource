@@ -143,5 +143,25 @@ Spring容器的refresh()
     2).所有bean创建完成后，检查所有bean是否是SmartInitializingSingleton接口，
         如果是，就执行smartSingleton.afterSingletonsInstantiated();方法
 12.finishRefresh();完成BeanFactory的初始化创建工作
-    1.初始化生命周期有关的后置处理器
-    2.
+    1).初始化生命周期有关的后置处理器,默认从容器中找LifecycleProcessor组件，如果没有，使用默认的
+        new DefaultLifecycleProcessor();组件，并加入到容器中
+        LifecycleProcessor实现类可以在BeanFactory的生命周期中进行拦截：onRefresh()/onClose();
+    2).getLifecycleProcessor().onRefresh();
+        拿到前面定义的生命周期处理器，回调onRefresh方法
+    3).发布容器刷新完成事件：publishEvent(new ContextRefreshedEvent(this));
+    4).LiveBeansView.registerApplicationContext(this);
+
+==========总结===========
+1.spring容器在启动时，会先保存所有的定义信息
+    1).xml注册bean
+    2).注解注册：@Bean、@Service...
+2.spring容器会在合适的时机创建bean
+    1).用到这个bean的时候，利用getBean方法创建Bean，保存在容器中
+    2).统一创建剩下的所有bean
+3.后置处理器
+    每一个bean创建完成，都会使用各种后置处理器，增强bean的各种功能
+    AutowiredAnnotationBeanPostProcessor:处理自动注入
+    AnnotationAwareAspectJAutoProxyCreator:AOP功能
+4.事件驱动模型
+    ApplicationListener：事件监听
+    ApplicationEventMulticaster:事件多播器

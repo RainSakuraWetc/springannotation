@@ -54,8 +54,8 @@ import org.springframework.context.annotation.Configuration;
  *      3.wrappedBean = this.applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
  *
  * -------------spring容器对BeanPostProcessor的应用-------------
- * ApplicationContextAwarePostProcessor
- * BeanValidationPostProcessor
+ * ApplicationContextAwarePostProcessor：给组件注入IOC容器
+ * BeanValidationPostProcessor：数据校验
  * InitDestroyAnnotationBeanPostProcessor:处理@PostConstruct、@PreDestroy注解
  * AutowiredAnnotationBeanPostProcessor：处理@AutoWired
  * ....
